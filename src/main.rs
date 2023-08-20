@@ -14,7 +14,7 @@ enum Token {
     Multiply,
     Divide,
     Print,
-    PrintCal, // New token for printcal keyword
+    PrintCal,
     Text(String),
     EndOfInput,
 }
@@ -49,9 +49,9 @@ impl<'a> Lexer<'a> {
                         } else {
                             num = num * 10.0 + next.to_digit(10).unwrap() as f64;
                         }
-                        self.input.next(); // Consume the digit
+                        self.input.next(); 
                     } else if next == '.' && !after_point {
-                        self.input.next(); // Consume the dot
+                        self.input.next();
                         after_point = true;
                     } else {
                         break;
@@ -61,7 +61,7 @@ impl<'a> Lexer<'a> {
             }
             if let Some(&'p') = self.input.peek() {
                 let mut keyword = String::new();
-                for _ in 0..8 { // Increase the loop count to 8 to capture "printcal"
+                for _ in 0..8 {
                     if let Some(&c) = self.input.peek() {
                         if c.is_alphabetic() || c == '_' {
                             keyword.push(self.input.next().unwrap());
@@ -79,11 +79,11 @@ impl<'a> Lexer<'a> {
                 }
             }            
             if let Some(&'"') = self.input.peek() {
-                self.input.next(); // Consume the opening quote
+                self.input.next();
                 let mut text = String::new();
                 while let Some(&next) = self.input.peek() {
                     if next == '"' {
-                        self.input.next(); // Consume the closing quote
+                        self.input.next();
                         break;
                     }
                     text.push(self.input.next().unwrap());
@@ -226,7 +226,7 @@ fn main() -> io::Result<()> {
         file.read_to_string(&mut code)?;
         interpret(&code);
     } else {
-        let ico_path = "C://Users/raz/desktop/mainly_lang/public/mainly.ico";
+        let ico_path = "./mainly.ico";
         let exe_path = env::current_exe().unwrap().to_str().unwrap().to_string();
         match associate_exe_and_ico(&exe_path, ico_path) {
             Ok(_) => println!("EXE and icon successfully associated with .mly files."),
